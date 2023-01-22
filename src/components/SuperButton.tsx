@@ -4,6 +4,7 @@ export type SuperButtonPropsType={
     title:string
     callback:()=>void
     error?:boolean
+    className?:string
 }
 
 export const SuperButton = (props:SuperButtonPropsType) => {
@@ -11,7 +12,7 @@ export const SuperButton = (props:SuperButtonPropsType) => {
         props.callback()
     }
     return (
-        <button disabled={props.error} onClick={onClickHandler}>{props.title}</button>
+        <button className={props.className} disabled={props.error} onClick={onClickHandler}>{props.title}</button>
     );
 };
 

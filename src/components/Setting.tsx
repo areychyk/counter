@@ -1,7 +1,8 @@
 import React, {ChangeEvent} from 'react';
 import {SuperButton} from "./SuperButton";
 import {CounterValueType} from "./Counter";
-
+import s from './Counter.module.css'
+import {TextField} from "@mui/material";
 export type SettingPropsType = {
     counter: CounterValueType
     setCounter: (counter: CounterValueType) => void
@@ -39,24 +40,31 @@ export const Setting = (props: SettingPropsType) => {
 
 
     return (
-        <div>
-            <div>
-                <span>StartValue</span>
-                <input type={'number'}
-                       value={props.counter.startValue}
-                       onChange={inputStartValueForCounter}
+        <div className={s.setting}>
+            <div className={s.startValue}>
+                {/*<span>StartValue</span>*/}
+                <TextField  type ={'number'}
+                            id="outlined-basic"
+                            label="StartValue"
+                            variant="outlined"
+                            value={props.counter.startValue}
+                            onChange={inputStartValueForCounter}
                 />
+
             </div>
-            <div>
-                <span>MaxValue</span>
-                <input type={'number'}
-                       value={props.counter.maxValue}
-                       onChange={inputSMaxValueForCounter}
+            <div className={s.maxValue}>
+
+                <TextField  type ={'number'}
+                            id="outlined-basic"
+                            label="MaxValue"
+                            variant="outlined"
+                            value={props.counter.maxValue}
+                            onChange={inputSMaxValueForCounter}
                 />
             </div>
 
 
-            <SuperButton title={'SET'} callback={setStartValueForCounterOnClick}/>
+            <SuperButton className={s.set} title={'SET'} callback={setStartValueForCounterOnClick}/>
         </div>
     );
 };

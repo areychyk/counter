@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {SuperButton} from "./SuperButton";
 import {Setting} from "./Setting";
 import s from './Counter.module.css'
@@ -24,13 +24,27 @@ export const Counter = () => {
 
     })
 
+    useEffect(()=>{
+        let valueFromLocalStorage= localStorage.getItem('counterValue');
+        if(valueFromLocalStorage){
+            let newValue=JSON.parse(valueFromLocalStorage)
+            setCounter({...counter,counterValue:newValue})
+        }
+
+    },[])
+
+
+    useEffect(()=>{
+        localStorage.setItem('counterValue', JSON.stringify(counter.counterValue))
+    },[counter.counterValue])
+
 
     console.log(counter)
 
 
 
     return (
-        <div>
+        <div className={s.wrapper}>
             <Setting counter={counter} setCounter={setCounter}/>
             <ContentCounter counter={counter} setCounter={setCounter}/>
 
