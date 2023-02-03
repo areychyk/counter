@@ -1,8 +1,8 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {SuperButton} from "./SuperButton";
-import {Setting} from "./Setting";
+import {SuperButton} from "./SuperButton/SuperButton";
+import {Setting} from "./Setting/Setting";
 import s from './Counter.module.css'
-import {ContentCounter} from "./ContentCounter";
+import {ContentCounter} from "./ContentCounter/ContentCounter";
 
 export type CounterValueType = {
     counterValue: number

@@ -1,8 +1,9 @@
 import React, {ChangeEvent} from 'react';
-import {SuperButton} from "./SuperButton";
-import {CounterValueType} from "./Counter";
-import s from './Counter.module.css'
+import {CounterValueType} from "../Counter";
+import s from '../Counter.module.css'
 import {TextField} from "@mui/material";
+import {SuperButton} from "../SuperButton/SuperButton";
+
 export type SettingPropsType = {
     counter: CounterValueType
     setCounter: (counter: CounterValueType) => void
