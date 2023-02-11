@@ -1,42 +1,35 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import {SuperButton} from "./SuperButton/SuperButton";
+import React, {useEffect} from 'react';
+
 import {Setting} from "./Setting/Setting";
 import s from './Counter.module.css'
 import {ContentCounter} from "./ContentCounter/ContentCounter";
+import {useDispatch, useSelector} from "react-redux";
+import {StoreType} from "../store/store";
 
-export type CounterValueType = {
-    counterValue: number
-    startValue: number
-    maxValue: number
-    disabled: boolean
-    error: boolean
-}
+
+
 
 export const Counter = () => {
 
 
-    const [counter, setCounter] = useState<CounterValueType>({
-        counterValue: 0,
-        startValue: 0,
-        maxValue: 0,
-        disabled: false,
-        error: false
-
-    })
-
-    useEffect(()=>{
-        let valueFromLocalStorage= localStorage.getItem('counterValue');
-        if(valueFromLocalStorage){
-            let newValue=JSON.parse(valueFromLocalStorage)
-            setCounter({...counter,counterValue:newValue})
-        }
-
-    },[])
 
 
-    useEffect(()=>{
-        localStorage.setItem('counterValue', JSON.stringify(counter.counterValue))
-    },[counter.counterValue])
+    const counter = useSelector<StoreType>(state => state.counter)
+    const dispatch = useDispatch()
+
+    // useEffect(()=>{
+    //     let valueFromLocalStorage= localStorage.getItem('counterValue');
+    //     if(valueFromLocalStorage){
+    //         let newValue=JSON.parse(valueFromLocalStorage)
+    //         setCounter({...counter,counterValue:newValue})
+    //     }
+    //
+    // },[])
+
+
+    // useEffect(()=>{
+    //     localStorage.setItem('counterValue', JSON.stringify(counter.counterValue))
+    // },[counter.counterValue])
 
 
     console.log(counter)
@@ -45,8 +38,8 @@ export const Counter = () => {
 
     return (
         <div className={s.wrapper}>
-            <Setting counter={counter} setCounter={setCounter}/>
-            <ContentCounter counter={counter} setCounter={setCounter}/>
+            <Setting/>
+            <ContentCounter/>
 
         </div>
     );

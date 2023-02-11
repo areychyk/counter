@@ -1,56 +1,59 @@
 import React, {useEffect} from 'react';
 import {SuperButton} from "../SuperButton/SuperButton";
 import s from "../Counter.module.css";
-import {CounterValueType} from "../Counter";
+import {useDispatch, useSelector} from "react-redux";
+import {StoreType} from "../../store/store";
+import {changeValueCounterAC, clearValueCounterAC, disabledButtonAC} from "../../store/Counter-reducer";
 
 
-export type ContentCounterPropsType = {
-    counter: CounterValueType
-    setCounter: (counter: CounterValueType) => void
-}
 
-export const ContentCounter = (props: ContentCounterPropsType) => {
+export const ContentCounter = () => {
+
+    const startValue = useSelector<StoreType>(state => state.counter.startValue) as number
+    const maxValue = useSelector<StoreType>(state => state.counter.maxValue) as number
+    const counterValue = useSelector<StoreType>(state => state.counter.counterValue) as number
+    const disabled = useSelector<StoreType>(state => state.counter.disabled) as boolean
+    const dispatch = useDispatch()
+
+
 
     useEffect(() => {
-        if (props.counter.maxValue > 0 && props.counter.counterValue > 0 && props.counter.counterValue >= props.counter.maxValue) {
-            props.setCounter({...props.counter, disabled: true})
-        }
+    if (maxValue > 0 && counterValue > 0 && counterValue >= maxValue) {
+        dispatch(disabledButtonAC())
+    }
+    }, [counterValue])
 
-    }, [props.counter.counterValue])
+
 
     const changeValueCounter = () => {
-        props.setCounter({...props.counter, counterValue: props.counter.counterValue + 1})
-
+        dispatch(changeValueCounterAC())
 
     }
 
     const clearValueCounter = () => {
-        props.setCounter({
-            ...props.counter,
-            counterValue: props.counter.startValue,
-            disabled: false,
-            maxValue: 0,
-            startValue: 0
-        })
+        dispatch(clearValueCounterAC(4))
     }
 
-    let classValueOnWindow = props.counter.disabled ? s.valueWindow + ' ' + s.stop : s.valueWindow;
-    let classDisabled_plusOneButton = props.counter.disabled ? s.plusOneButton : ' '
-    let classDisabled_clearButton = props.counter.disabled ? s.clearButton : ' '
+
+    let classValueOnWindow = disabled ? s.valueWindow + ' ' + s.stop : s.valueWindow;
+    let classDisabled_plusOneButton = disabled ? s.plusOneButton : ' '
+    let classDisabled_clearButton = disabled ? s.clearButton : ' '
+
+
     return (
 
         <div className={s.contentCounter}>
-            <div className={classValueOnWindow}>{props.counter.counterValue}</div>
+            <div className={classValueOnWindow}>{counterValue}</div>
             <div className={s.block_buttons_content_container}>
                 <SuperButton
                     className={classDisabled_plusOneButton}
-                    error={props.counter.disabled}
+                    error={disabled}
                     title={'+1'}
                     callback={changeValueCounter}
                 />
                 <SuperButton
                     className={classDisabled_clearButton}
-                    // error={!props.counter.disabled}
+                    error={!disabled}
                     title={'clear'}
                     callback={clearValueCounter}
                 />

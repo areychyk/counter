@@ -1,66 +1,61 @@
 import React, {ChangeEvent} from 'react';
-import {CounterValueType} from "../Counter";
+
 import s from '../Counter.module.css'
 import {TextField} from "@mui/material";
 import {SuperButton} from "../SuperButton/SuperButton";
+import {useDispatch, useSelector} from "react-redux";
+import {StoreType} from "../../store/store";
+import {
+    inputMaxValueForCounterAC,
+    inputStartValueForCounterAC,
+    setStartValueForCounterAC
+} from "../../store/Counter-reducer";
 
-export type SettingPropsType = {
-    counter: CounterValueType
-    setCounter: (counter: CounterValueType) => void
-}
 
-export const Setting = (props: SettingPropsType) => {
+export const Setting = () => {
+
+
+    const startValue = useSelector<StoreType>(state => state.counter.startValue) as number
+    const maxValue = useSelector<StoreType>(state => state.counter.maxValue) as number
+    const dispatch = useDispatch()
 
     const inputStartValueForCounter = (event: ChangeEvent<HTMLInputElement>) => {
-        if(+event.currentTarget.value<0){
-            props.setCounter({...props.counter,error:true})
-        }else{
-            props.setCounter({...props.counter,startValue:+event.currentTarget.value})
-        }
+        dispatch(inputStartValueForCounterAC(+event.currentTarget.value))
 
     }
 
-    const inputSMaxValueForCounter = (event: ChangeEvent<HTMLInputElement>) => {
-        if(+event.currentTarget.value<0){
-            props.setCounter({...props.counter,error:true})
-        }else{
-            props.setCounter({...props.counter,maxValue:+event.currentTarget.value})
-        }
+    const inputMaxValueForCounter = (event: ChangeEvent<HTMLInputElement>) => {
+        dispatch(inputMaxValueForCounterAC(+event.currentTarget.value))
 
     }
 
     const setStartValueForCounterOnClick = () => {
-        if(props.counter.maxValue<props.counter.startValue){
-            props.setCounter({...props.counter,error:true,disabled:true})
-        }else{
-            props.setCounter({...props.counter,counterValue:props.counter.startValue})
-        }
+        dispatch(setStartValueForCounterAC(startValue))
+
 
     }
-
 
 
     return (
         <div className={s.setting}>
             <div className={s.startValue}>
-                {/*<span>StartValue</span>*/}
-                <TextField  type ={'number'}
-                            id="outlined-basic"
-                            label="StartValue"
-                            variant="outlined"
-                            value={props.counter.startValue}
-                            onChange={inputStartValueForCounter}
+                <TextField type={'number'}
+                           id="outlined-basic"
+                           label="StartValue"
+                           variant="outlined"
+                           value={startValue}
+                           onChange={inputStartValueForCounter}
                 />
 
             </div>
             <div className={s.maxValue}>
 
-                <TextField  type ={'number'}
-                            id="outlined-basic"
-                            label="MaxValue"
-                            variant="outlined"
-                            value={props.counter.maxValue}
-                            onChange={inputSMaxValueForCounter}
+                <TextField type={'number'}
+                           id="outlined-basic"
+                           label="MaxValue"
+                           variant="outlined"
+                           value={maxValue}
+                           onChange={inputMaxValueForCounter}
                 />
             </div>
 
