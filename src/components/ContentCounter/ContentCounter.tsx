@@ -31,7 +31,7 @@ export const ContentCounter = () => {
     }
 
     const clearValueCounter = () => {
-        dispatch(clearValueCounterAC(4))
+        dispatch(clearValueCounterAC(startValue))
     }
 
 
